@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import folium
-from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 import zipfile
 import os
@@ -94,6 +93,8 @@ elif st.session_state.page == 'sailor_checkin':
     sailor_name = st.text_input("Name")
     if st.button("Submit Check-in", key="submit_sailor"):
         st.write(f"Thank you, {sailor_name}! Your check-in is complete.")
+        if sailor_name == "Nishchal Srinarayanan":
+            st.session_state.sailor_location = [30.253136, -79.253909]
         st.session_state.page = 'map'
 
 # Diver Check-in Page (Placeholder)
@@ -116,7 +117,6 @@ elif st.session_state.page == 'map':
 
     # Create map
     m = folium.Map(location=map_location, zoom_start=8)
-    marker_cluster = MarkerCluster().add_to(m)
 
     # Add coral locations
     for _, row in df.iterrows():
@@ -126,11 +126,14 @@ elif st.session_state.page == 'map':
             color='red',
             fill=True,
             fill_color='red'
-        ).add_to(marker_cluster)
+        ).add_to(m)
 
     # Add sailor markers
-    for lat, lon in st.session_state.sailor_markers:
-        folium.Marker([lat, lon], popup="Sailor Location").add_to(marker_cluster)
+    if st.session_state.get('sailor_location'):
+        folium.Marker(st.session_state.sailor_location, popup="Nishchal Srinarayanan's Location", icon=folium.Icon(color='green')).add_to(m)
+    else:
+        for lat, lon in st.session_state.sailor_markers:
+            folium.Marker([lat, lon], popup="Sailor Location").add_to(m)
 
     # Pinpoint user's location on the map
     folium.Marker(user_location, popup="Your Location", icon=folium.Icon(color='blue')).add_to(m)
