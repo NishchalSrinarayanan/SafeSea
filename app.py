@@ -94,7 +94,7 @@ elif st.session_state.page == 'sailor_checkin':
             st.session_state.sailor_location = [30.253136, -79.253909]
         else:
             st.session_state.sailor_location = get_user_location()
-        st.session_state.page = 'map'
+        st.session_state.page = 'sailor_confirmation'
 
 # Diver Check-in Page
 elif st.session_state.page == 'diver_checkin':
@@ -104,9 +104,23 @@ elif st.session_state.page == 'diver_checkin':
     if st.button("Submit Check-in", key="submit_diver"):
         st.write(f"Thank you, {diver_name}! Your check-in is complete.")
         if diver_name == "Nishchal Srinarayanan":
-            st.session_state.diver_location = [30.242288,-79.272648]
+            st.session_state.diver_location = [30.253136, -79.253909]
         else:
             st.session_state.diver_location = get_user_location()
+        st.session_state.page = 'diver_confirmation'
+
+# Sailor Confirmation Page
+elif st.session_state.page == 'sailor_confirmation':
+    st.title("You are now checked in to SafeSea!")
+    st.image("safesea_logo.png", width=200)  # Make sure your logo image is named "safesea_logo.png" and is in the same directory as this script
+    if st.button("Go to Coral Map", key="go_to_map_sailor"):
+        st.session_state.page = 'map'
+
+# Diver Confirmation Page
+elif st.session_state.page == 'diver_confirmation':
+    st.title("You are now checked in to SafeSea!")
+    st.image("safesea_logo.png", width=200)  # Make sure your logo image is named "safesea_logo.png" and is in the same directory as this script
+    if st.button("Go to Coral Map", key="go_to_map_diver"):
         st.session_state.page = 'map'
 
 # Map Page
