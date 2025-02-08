@@ -21,7 +21,7 @@ def display_background(image_path):
 st.set_page_config(page_title="SafeSea", page_icon=":ocean:")  # Set title and icon
 
 # Replace 'your_image.png' with the actual path to your image file
-image_path = "your_image.png"  # Make sure the image is in the same directory as the script or provide the full path
+image_path = "safeseatitle.png"  # Make sure the image is in the same directory as the script or provide the full path
 display_background(image_path)
 
 # --- Home Page ---
