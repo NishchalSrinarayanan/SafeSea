@@ -6,6 +6,7 @@ from streamlit_folium import st_folium
 import zipfile
 import os
 import random
+import requests
 from datetime import datetime
 
 # Function to load CSV from a local zip file
@@ -42,17 +43,20 @@ if df.empty:
 
 st.write(f"Loaded {df.shape[0]} coral locations.")
 
-# Function to randomly zoom to a coral
-def zoom_to_random():
-    random_coral = df.sample(1).iloc[0]
-    return [random_coral[lat_col], random_coral[lon_col]]
+# Function to get user location based on IP address
+def get_user_location():
+    try:
+        response = requests.get("https://ipinfo.io/json")
+        data = response.json()
+        loc = data['loc'].split(',')
+        return [float(loc[0]), float(loc[1])]
+    except Exception as e:
+        st.error(f"Error getting user location: {e}")
+        st.stop()
+        return [0, 0]
 
-# Simulate WiFi signal detection (Replace this with actual WebSocket/API call)
-if 'page' not in st.session_state:
-    st.session_state.page = 'home'
-
-# Set markers for sailors
-def get_sailor_markers():
+# Function to generate random sailor markers
+def generate_sailor_markers():
     markers = []
     for _ in range(100):
         lat = random.uniform(-90, 90)
@@ -60,10 +64,13 @@ def get_sailor_markers():
         markers.append([lat, lon])
     return markers
 
-# Reset the sailor markers every hour
+# Simulate WiFi signal detection (Replace this with actual WebSocket/API call)
+if 'page' not in st.session_state:
+    st.session_state.page = 'home'
+
 current_time = datetime.now()
 if 'last_marker_reset' not in st.session_state or current_time.hour != st.session_state.last_marker_reset:
-    st.session_state.sailor_markers = get_sailor_markers()
+    st.session_state.sailor_markers = generate_sailor_markers()
     st.session_state.last_marker_reset = current_time.hour
 
 # Home Page
@@ -86,7 +93,7 @@ elif st.session_state.page == 'sailor_checkin':
         if sailor_name == "Nishchal Srinarayanan":
             st.session_state.sailor_location = [30.253136, -79.253909]
         else:
-            st.session_state.sailor_location = None
+            st.session_state.sailor_location = get_user_location()
         st.session_state.page = 'map'
 
 # Diver Check-in Page (Placeholder)
@@ -118,11 +125,10 @@ elif st.session_state.page == 'map':
             fill_color='red'
         ).add_to(marker_cluster)
 
-    # Add sailor markers
+    # Add sailor markers without clustering
     if st.session_state.get('sailor_location'):
-        folium.Marker(st.session_state.sailor_location, popup="Nishchal Srinarayanan's Location", icon=folium.Icon(color='green')).add_to(m)
-    else:
-        for lat, lon in st.session_state.sailor_markers:
-            folium.Marker([lat, lon], popup="Sailor Location").add_to(m)
+        folium.Marker(st.session_state.sailor_location, popup="Sailor Location", icon=folium.Icon(color='green')).add_to(m)
+    for lat, lon in st.session_state.sailor_markers:
+        folium.Marker([lat, lon], popup="Sailor Location").add_to(m)
 
-    st_folium(m, width=700, height=500)
+    st_folium(m, width=700, 
