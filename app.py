@@ -84,8 +84,10 @@ if st.session_state.page == 'home':
     
     if col1.button("I am a Sailor", key="sailor"):
         st.session_state.page = 'sailor_checkin'
+        st.experimental_rerun()
     if col2.button("I am a Diver", key="diver"):
         st.session_state.page = 'diver_checkin'
+        st.experimental_rerun()
 
 # Sailor Check-in Page
 elif st.session_state.page == 'sailor_checkin':
@@ -95,6 +97,7 @@ elif st.session_state.page == 'sailor_checkin':
     if st.button("Submit Check-in", key="submit_sailor"):
         st.write(f"Thank you, {sailor_name}! Your check-in is complete.")
         st.session_state.page = 'map'
+        st.experimental_rerun()
 
 # Diver Check-in Page (Placeholder)
 elif st.session_state.page == 'diver_checkin':
@@ -102,6 +105,7 @@ elif st.session_state.page == 'diver_checkin':
     st.write("This page is under development.")
     if st.button("Go Back", key="go_back"):
         st.session_state.page = 'home'
+        st.experimental_rerun()
 
 # Map Page
 elif st.session_state.page == 'map':
