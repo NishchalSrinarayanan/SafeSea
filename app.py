@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
 import folium
+from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 import zipfile
 import os
 import random
-import requests
 from datetime import datetime
 
 # Function to load CSV from a local zip file
@@ -66,16 +66,6 @@ if 'last_marker_reset' not in st.session_state or current_time.hour != st.sessio
     st.session_state.sailor_markers = get_sailor_markers()
     st.session_state.last_marker_reset = current_time.hour
 
-# Function to get the user's location based on their IP
-def get_user_location():
-    try:
-        response = requests.get("https://ipinfo.io/json")
-        data = response.json()
-        loc = data['loc'].split(',')
-        return [float(loc[0]), float(loc[1])]
-    except:
-        return [0, 0]  # Default location if the API fails
-
 # Home Page
 if st.session_state.page == 'home':
     st.title("Welcome to SafeSea")
@@ -95,6 +85,8 @@ elif st.session_state.page == 'sailor_checkin':
         st.write(f"Thank you, {sailor_name}! Your check-in is complete.")
         if sailor_name == "Nishchal Srinarayanan":
             st.session_state.sailor_location = [30.253136, -79.253909]
+        else:
+            st.session_state.sailor_location = None
         st.session_state.page = 'map'
 
 # Diver Check-in Page (Placeholder)
@@ -108,15 +100,13 @@ elif st.session_state.page == 'diver_checkin':
 elif st.session_state.page == 'map':
     st.title("Coral Map")
 
-    # Get the user's location
-    user_location = get_user_location()
-
     # Default map location
     default_location = [df[lat_col].mean(), df[lon_col].mean()]
     map_location = st.session_state.get("zoom_location", default_location)
 
     # Create map
     m = folium.Map(location=map_location, zoom_start=8)
+    marker_cluster = MarkerCluster().add_to(m)
 
     # Add coral locations
     for _, row in df.iterrows():
@@ -126,7 +116,7 @@ elif st.session_state.page == 'map':
             color='red',
             fill=True,
             fill_color='red'
-        ).add_to(m)
+        ).add_to(marker_cluster)
 
     # Add sailor markers
     if st.session_state.get('sailor_location'):
@@ -134,8 +124,5 @@ elif st.session_state.page == 'map':
     else:
         for lat, lon in st.session_state.sailor_markers:
             folium.Marker([lat, lon], popup="Sailor Location").add_to(m)
-
-    # Pinpoint user's location on the map
-    folium.Marker(user_location, popup="Your Location", icon=folium.Icon(color='blue')).add_to(m)
 
     st_folium(m, width=700, height=500)
