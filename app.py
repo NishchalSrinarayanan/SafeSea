@@ -96,12 +96,18 @@ elif st.session_state.page == 'sailor_checkin':
             st.session_state.sailor_location = get_user_location()
         st.session_state.page = 'map'
 
-# Diver Check-in Page (Placeholder)
+# Diver Check-in Page
 elif st.session_state.page == 'diver_checkin':
-    st.title("Diver Check-in (Coming Soon!)")
-    st.write("This page is under development.")
-    if st.button("Go Back", key="go_back"):
-        st.session_state.page = 'home'
+    st.title("Diver Check-in")
+    st.write("Please enter your details:")
+    diver_name = st.text_input("Name")
+    if st.button("Submit Check-in", key="submit_diver"):
+        st.write(f"Thank you, {diver_name}! Your check-in is complete.")
+        if diver_name == "Nishchal Srinarayanan":
+            st.session_state.diver_location = [30.242288,-79.272648]
+        else:
+            st.session_state.diver_location = get_user_location()
+        st.session_state.page = 'map'
 
 # Map Page
 elif st.session_state.page == 'map':
@@ -131,4 +137,8 @@ elif st.session_state.page == 'map':
     for lat, lon in st.session_state.sailor_markers:
         folium.Marker([lat, lon], popup="Sailor Location").add_to(m)
 
+    # Add diver markers without clustering
+    if st.session_state.get('diver_location'):
+        folium.Marker(st.session_state.diver_location, popup="Diver Location", icon=folium.Icon(color='blue')).add_to(m)
+    
     st_folium(m, width=700, height=500)
