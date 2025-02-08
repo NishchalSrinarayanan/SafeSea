@@ -131,4 +131,4 @@ elif st.session_state.page == 'map':
     for lat, lon in st.session_state.sailor_markers:
         folium.Marker([lat, lon], popup="Sailor Location").add_to(m)
 
-    st_folium(m, width=700, 
+    st_folium(m, width=700, height=500)
