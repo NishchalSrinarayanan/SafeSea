@@ -77,7 +77,7 @@ if 'last_marker_reset' not in st.session_state or current_time.hour != st.sessio
 # Home Page
 if st.session_state.page == 'home':
     st.title("Welcome to SafeSea")
-     st.header("Fearless Exploration, Safe Adventure!")
+    st.header("Fearless Exploration, Safe Adventure!")
     col1, col2 = st.columns(2)
     
     if col1.button("I am a Sailor", key="sailor"):
