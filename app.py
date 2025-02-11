@@ -40,8 +40,9 @@ df = df.dropna(subset=[lat_col, lon_col])
 if df.empty:
     st.error("No valid latitude/longitude data.")
     st.stop()
-
-st.write(f"Loaded {df.shape[0]} coral locations.")
+    
+st.write(f"Loaded All Coral Locations.")
+# st.write(f"Loaded {df.shape[0]} coral locations.")
 
 # Function to get user location based on IP address
 def get_user_location():
