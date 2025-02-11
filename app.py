@@ -123,8 +123,8 @@ elif st.session_state.page == 'sailor_confirmation':
     "There's a severe storm expected to come from the north-west. It's predicted to arrive in about 2 hours.\n\n"
     "💨 **High Winds Alert:**\n"
     "High wind conditions are on the way in your area with speeds of up to 25 knots. Please proceed with caution."
-)
-if st.button("Go to Coral Map", key="go_to_map_sailor"):
+    )
+    if st.button("Go to Coral Map", key="go_to_map_sailor"):
         st.session_state.page = 'map'
 
 # Diver Confirmation Page
