@@ -116,7 +116,15 @@ elif st.session_state.page == 'diver_checkin':
 elif st.session_state.page == 'sailor_confirmation':
     st.title("You are now checked in to SafeSea!")
     st.image("safesea_logo.png", width=200)  # Make sure your logo image is named "safesea_logo.png" and is in the same directory as this script
-    st.header("Hi {diver_name}"+ "I am your SafeSea AI! Storm Warning: Severe storm expected from the north-west. Estimated arrival time: 2 hours. High Winds Alert:High wind conditions predicted in your area. Wind speed: 25 knots. Proceed with caution.")
+    st.subheader(
+    f"Hi {diver_name}\n"
+    "I am your SafeSea AI!\n\n"
+    "Storm Warning:\n"
+    "Severe storm expected from the north-west. Estimated arrival time: 2 hours.\n\n"
+    "High Winds Alert:\n"
+    "High wind conditions predicted in your area. Wind speed: 25 knots. Proceed with caution."
+)
+
     if st.button("Go to Coral Map", key="go_to_map_sailor"):
         st.session_state.page = 'map'
 
@@ -165,27 +173,4 @@ elif st.session_state.page == 'map':
 
 
 
-
-"""
-
-Weather Alerts
-Storm Warning: Severe storm approaching from the north-west. Estimated arrival time: 2 hours. Seek safe harbor immediately.
-High Winds Alert:High wind conditions detected in your area. Wind speed: 25 knots. Adjust sails and proceed with caution.
-Collision Warnings
-Nearby Vessel Alert: Vessel detected within 500 meters to your starboard side. Maintain safe distance and adjust course if necessary.
-Marine Traffic Congestion: High marine traffic detected ahead. Slow down and navigate carefully.
-Navigation Rerouting
-Obstacle Ahead: Underwater obstacle detected 1 nautical mile ahead. Rerouting to avoid collision. New course: 35° North-East.
-Shallow Waters Alert:
-Entering shallow waters. Depth: 3 meters. Reduce speed and navigate with caution.
-Environmental Hazards
-Debris in Water: Debris detected in your path. Location: 0.5 nautical miles ahead. Navigate around the debris field.
-Oil Spill Alert: Oil spill detected in the vicinity.Avoid the area and report to authorities if safe.
-SOS Distress Signals
-SOS Received: SOS alert received from nearby vessel. Location: 1.5 nautical miles to the south. Prepare for potential assistance.
-SafeSea Community Alerts
-Community Tip: Nearby sailor reports strong currents in the area. Adjust course to avoid strong current zones.
-Diver Below Alert: Divers detected in your vicinity. Slow down and maintain a safe distance from marked dive sites.
-
-"""
 
