@@ -89,6 +89,7 @@ elif st.session_state.page == 'sailor_checkin':
     st.title("Sailor Check-in")
     st.write("Please enter your details:")
     sailor_name = st.text_input("Name")
+    hull_id =st.text_input("Hull Identification Number")
     if st.button("Submit Check-in", key="submit_sailor"):
         st.write(f"Thank you, {sailor_name}! Your check-in is complete.")
         if sailor_name == "Nishchal Srinarayanan":
