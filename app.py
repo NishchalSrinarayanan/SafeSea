@@ -149,7 +149,9 @@ elif st.session_state.page == 'map':
         """,
         unsafe_allow_html=True
     )
+
     st.title("Coral Map")
+    st.markdown('<div class="full-screen-map">', unsafe_allow_html=True)
 
     # Default map location
     default_location = [df[lat_col].mean(), df[lon_col].mean()]
@@ -180,7 +182,6 @@ elif st.session_state.page == 'map':
         folium.Marker(st.session_state.diver_location, popup="Diver Location", icon=folium.Icon(color='blue')).add_to(m)
     
     st_folium(m, width=700, height=500)
-
 
 
 
