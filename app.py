@@ -136,8 +136,7 @@ elif st.session_state.page == 'diver_confirmation':
 
 # Map Page
 elif st.session_state.page == 'map':     
-        st.title("Coral Map")
-      
+        st.title("Coral Map")    
 
     # Default map location
         default_location = [df[lat_col].mean(), df[lon_col].mean()]
