@@ -135,23 +135,9 @@ elif st.session_state.page == 'diver_confirmation':
         st.session_state.page = 'map'
 
 # Map Page
-elif st.session_state.page == 'map':
-        st.markdown(
-        """
-        <style>
-        .full-screen-map {
-            height: 100vh;
-            width: 100vw;
-            margin: 0;
-            padding: 0;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
+elif st.session_state.page == 'map':     
         st.title("Coral Map")
-        st.markdown('<div class="full-screen-map">', unsafe_allow_html=True)
+      
 
     # Default map location
         default_location = [df[lat_col].mean(), df[lon_col].mean()]
@@ -180,7 +166,7 @@ elif st.session_state.page == 'map':
     # Add diver markers without clustering
         if st.session_state.get('diver_location'):
             folium.Marker(st.session_state.diver_location, popup="Diver Location", icon=folium.Icon(color='blue')).add_to(m)
-            st_folium(m, width=700, height=500)
+              st_folium(m, width=1600, height=800)
 
 
 
