@@ -136,6 +136,19 @@ elif st.session_state.page == 'diver_confirmation':
 
 # Map Page
 elif st.session_state.page == 'map':
+    st.markdown(
+        """
+        <style>
+        .full-screen-map {
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     st.title("Coral Map")
 
     # Default map location
