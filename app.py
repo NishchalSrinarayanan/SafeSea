@@ -136,7 +136,7 @@ elif st.session_state.page == 'diver_confirmation':
 
 # Map Page
 elif st.session_state.page == 'map':
-    st.markdown(
+        st.markdown(
         """
         <style>
         .full-screen-map {
