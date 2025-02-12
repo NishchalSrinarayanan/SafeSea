@@ -154,22 +154,22 @@ elif st.session_state.page == 'map':
         st.markdown('<div class="full-screen-map">', unsafe_allow_html=True)
 
     # Default map location
-    default_location = [df[lat_col].mean(), df[lon_col].mean()]
-    map_location = st.session_state.get("zoom_location", default_location)
+        default_location = [df[lat_col].mean(), df[lon_col].mean()]
+        map_location = st.session_state.get("zoom_location", default_location)
 
     # Create map
-    m = folium.Map(location=map_location, zoom_start=8)
-    marker_cluster = MarkerCluster().add_to(m)
+        m = folium.Map(location=map_location, zoom_start=8)
+        marker_cluster = MarkerCluster().add_to(m)
 
     # Add coral locations
-    for _, row in df.iterrows():
-        folium.CircleMarker(
-            location=[row[lat_col], row[lon_col]],
-            radius=5,
-            color='red',
-            fill=True,
-            fill_color='red'
-        ).add_to(marker_cluster)
+        for _, row in df.iterrows():
+            folium.CircleMarker(
+                location=[row[lat_col], row[lon_col]],
+                radius=5,
+                color='red',
+                fill=True,
+                fill_color='red'
+            ).add_to(marker_cluster)
 
     # Add sailor markers without clustering
     if st.session_state.get('sailor_location'):
