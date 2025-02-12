@@ -167,8 +167,3 @@ elif st.session_state.page == 'map':
         if st.session_state.get('diver_location'):
             folium.Marker(st.session_state.diver_location, popup="Diver Location", icon=folium.Icon(color='blue')).add_to(m)
             st_folium(m, width=1600, height=800)
-
-
-
-
-
