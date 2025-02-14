@@ -145,7 +145,14 @@ elif st.session_state.page == 'sailor_confirmation':
 # Diver Confirmation Page
 elif st.session_state.page == 'diver_confirmation':
     st.title("You are now checked in to SafeSea!")
-    st.image("safesea_logo.png", width=200)  # Make sure your logo image is named "safesea_logo.png" and is in the same directory as this script
+   st.image("safesea_logo.png", width=200)  # Make sure your logo image is named "safesea_logo.png" and is in the same directory as this script
+    st.subheader("***I'm your SafeSea AI***")
+    st.image("AI_Image.png", width=150)
+    st.subheader(f"I wanted to give you a heads-up about the current conditions.\n\n"
+    "🌊 **Storm Warning:**\n"
+    "There's a severe storm expected to come from the north-west. It's predicted to arrive in about 2 hours.\n\n"
+    "💨 **High Winds Alert:**\n"
+    "High wind conditions are on the way in your area with speeds of up to 25 knots. Please proceed with caution.")
     if st.button("Go to Coral Map", key="go_to_map_diver"):
         st.session_state.page = 'map'
 
