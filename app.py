@@ -8,14 +8,14 @@ import os
 import random
 import requests
 from datetime import datetime
-
-# Add custom CSS for background image
+# Function to set the background image
 def set_background(png_file):
-    bin_str = get_base64_of_bin_file(png_file)
+    with open(png_file, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode()
     page_bg_img = f'''
     <style>
-    body {{
-        background-image: url("data:image/png;base64,{bin_str}");
+    .stApp {{
+        background-image: url("data:image/png;base64,{encoded_string}");
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -25,15 +25,8 @@ def set_background(png_file):
     '''
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-@st.cache_data
-def get_base64_of_bin_file(bin_file):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
-
 # Set background image
 set_background('Background.png')
-
 
 # Function to load CSV from a local zip file
 @st.cache_data
