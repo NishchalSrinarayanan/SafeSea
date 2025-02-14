@@ -77,7 +77,7 @@ if 'last_marker_reset' not in st.session_state or current_time.hour != st.sessio
 # Home Page
 if st.session_state.page == 'home':
     st.title("Welcome to SafeSea")
-    st.header("Fearless Exploration, Safe Adventure!")
+    st.header("Dive deeper. Explore farther. Safe Sea has got your back.")
     col1, col2 = st.columns(2)
     
     if col1.button("I am a Sailor", key="sailor"):
@@ -115,6 +115,7 @@ elif st.session_state.page == 'diver_checkin':
 # Sailor Confirmation Page
 elif st.session_state.page == 'sailor_confirmation':
     st.title("You are now checked in to SafeSea!")
+    st.image("AI_Image.png", width=20)
     st.image("safesea_logo.png", width=200)  # Make sure your logo image is named "safesea_logo.png" and is in the same directory as this script
     st.subheader(
     f"***I'm your SafeSea AI***\n" 
