@@ -61,7 +61,7 @@ if df.empty:
     st.error("No valid latitude/longitude data.")
     st.stop()
     
-st.write(f"Loaded All Coral Locations.")
+st.write(f"Coral locations are loaded and ready to go!!!.")
 # st.write(f"Loaded {df.shape[0]} coral locations.")
 
 # Function to get user location based on IP address
