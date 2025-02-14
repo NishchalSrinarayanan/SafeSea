@@ -9,6 +9,18 @@ import random
 import requests
 from datetime import datetime
 
+# Add custom CSS for background image
+page_bg_img = '''
+<style>
+body {
+    background-image: url("Background.png");
+    background-size: cover;
+}
+</style>
+'''
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 # Function to load CSV from a local zip file
 @st.cache_data
 def load_csv_from_zip(zip_file_path):
@@ -90,7 +102,7 @@ elif st.session_state.page == 'sailor_checkin':
     st.title("Sailor Check-in")
     st.write("Please enter your details:")
     sailor_name = st.text_input("Name")
-    hull_id =st.text_input("Hull Identification Number")
+    hull_id = st.text_input("Hull Identification Number")
     if st.button("Submit Check-in", key="submit_sailor"):
         st.write(f"Thank you, {sailor_name}! Your check-in is complete.")
         if sailor_name == "Nishchal Srinarayanan":
