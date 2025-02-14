@@ -115,8 +115,8 @@ elif st.session_state.page == 'diver_checkin':
 # Sailor Confirmation Page
 elif st.session_state.page == 'sailor_confirmation':
     st.title("You are now checked in to SafeSea!")
-    st.image("AI_Image.png", width=20)
     st.image("safesea_logo.png", width=200)  # Make sure your logo image is named "safesea_logo.png" and is in the same directory as this script
+    st.image("AI_Image.png", width=100)
     st.subheader(
     f"***I'm your SafeSea AI***\n" 
     "I wanted to give you a heads-up about the current conditions.\n\n"
