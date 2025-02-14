@@ -9,10 +9,6 @@ import random
 import requests
 from datetime import datetime
 import base64
-
-# File path
-file_path = 'C:\\Users\\nishc\\Desktop\\PythonProjects\\my-python-web-project\\app\\'
-
 # Function to set the background image
 def set_background(png_file):
     with open(png_file, "rb") as image_file:
@@ -31,7 +27,7 @@ def set_background(png_file):
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # Set background image
-set_background(file_path + 'Background.png')
+set_background('Background.png')
 
 # Function to load CSV from a local zip file
 @st.cache_data
@@ -47,15 +43,12 @@ def load_csv_from_zip(zip_file_path):
         st.stop()
 
 # Load Data
-zip_file_path = file_path + 'Book3.zip'
+zip_file_path = 'Book3.zip'
 if os.path.exists(zip_file_path):
-    df = load_csv_from_zip(zip_file_path).head(100)
+    df = load_csv_from_zip(zip_file_path)
+    df = df.head(100)
 else:
     st.error(f"Zip file '{zip_file_path}' not found!")
-    st.stop()
-
-if df is None or df.empty:
-    st.error("Failed to load data from the zip file.")
     st.stop()
 
 # Identify latitude and longitude columns
@@ -67,8 +60,9 @@ df = df.dropna(subset=[lat_col, lon_col])
 if df.empty:
     st.error("No valid latitude/longitude data.")
     st.stop()
-
-st.write("Coral locations are loaded and ready to go!!!")
+    
+st.write(f"Coral locations are loaded and ready to go!!!.")
+# st.write(f"Loaded {df.shape[0]} coral locations.")
 
 # Function to get user location based on IP address
 def get_user_location():
@@ -79,13 +73,19 @@ def get_user_location():
         return [float(loc[0]), float(loc[1])]
     except Exception as e:
         st.error(f"Error getting user location: {e}")
+        st.stop()
         return [0, 0]
 
 # Function to generate random sailor markers
 def generate_sailor_markers():
-    return [[random.uniform(-90, 90), random.uniform(-180, 180)] for _ in range(100)]
+    markers = []
+    for _ in range(100):
+        lat = random.uniform(-90, 90)
+        lon = random.uniform(-180, 180)
+        markers.append([lat, lon])
+    return markers
 
-# Initialize session state
+# Simulate WiFi signal detection (Replace this with actual WebSocket/API call)
 if 'page' not in st.session_state:
     st.session_state.page = 'home'
 
@@ -96,7 +96,7 @@ if 'last_marker_reset' not in st.session_state or current_time.hour != st.sessio
 
 # Home Page
 if st.session_state.page == 'home':
-    st.title("Welcome to SafeSea - Real-time Monitoring & Alert System")
+    st.title("Welcome to SafeSea - Real-time AI Monitoring & Alert System")
     st.header("Dive deeper. Explore farther. Safe Sea has got your back.")
     col1, col2 = st.columns(2)
     
@@ -122,17 +122,22 @@ elif st.session_state.page == 'sailor_checkin':
 # Diver Check-in Page
 elif st.session_state.page == 'diver_checkin':
     st.title("Diver Check-in")
+    st.write("Please enter your details:")
     diver_name = st.text_input("Name")
     if st.button("Submit Check-in", key="submit_diver"):
-        st.session_state.diver_location = [30.253136, -79.253909] if diver_name == "Nishchal Srinarayanan" else get_user_location()       
+        st.write(f"Thank you, {diver_name}! Your check-in is complete.")
+        if diver_name == "Nishchal Srinarayanan":
+            st.session_state.diver_location = [30.253136, -79.253909]
+        else:
+            st.session_state.diver_location = get_user_location()
         st.session_state.page = 'diver_confirmation'
 
 # Sailor Confirmation Page
 elif st.session_state.page == 'sailor_confirmation':
     st.title("You are now checked in to SafeSea!")
-    st.image(file_path + 'safesea_logo.png', width=200)    
+    st.image("safesea_logo.png", width=200)  # Make sure your logo image is named "safesea_logo.png" and is in the same directory as this script
     st.subheader("***I'm your SafeSea AI***")
-    st.image(file_path + 'AI_Image.png', width=150)
+    st.image("AI_Image.png", width=150)
     st.subheader(f"I wanted to give you a heads-up about the current conditions.\n\n"
     "🌊 **Storm Warning:**\n"
     "There's a severe storm expected to come from the north-west. It's predicted to arrive in about 2 hours.\n\n"
@@ -144,9 +149,9 @@ elif st.session_state.page == 'sailor_confirmation':
 # Diver Confirmation Page
 elif st.session_state.page == 'diver_confirmation':
     st.title("You are now checked in to SafeSea!")
-    st.image(file_path + 'safesea_logo.png', width=200)   
+    st.image("safesea_logo.png", width=200)  # Make sure your logo image is named "safesea_logo.png" and is in the same directory as this script
     st.subheader("***I'm your SafeSea AI***")
-    st.image(file_path + 'AI_Image.png', width=150)
+    st.image("AI_Image.png", width=150)
     st.subheader(f"I wanted to give you a heads-up about the current conditions.\n\n"
     "🌊 **Storm Warning:**\n"
     "There's a severe storm expected to come from the north-west. It's predicted to arrive in about 2 hours.\n\n"
@@ -155,43 +160,36 @@ elif st.session_state.page == 'diver_confirmation':
     if st.button("Go to Coral Map", key="go_to_map_diver"):
         st.session_state.page = 'map'
 
-# Map Page (updated with zoom on alert)
-elif st.session_state.page == 'map':
-    st.title("Coral Map")
+# Map Page
+elif st.session_state.page == 'map':     
+        st.title("Coral Map")    
 
     # Default map location
-    default_location = [df[lat_col].mean(), df[lon_col].mean()]
-    map_location = st.session_state.get("zoom_location", default_location)
+        default_location = [df[lat_col].mean(), df[lon_col].mean()]
+        map_location = st.session_state.get("zoom_location", default_location)
 
     # Create map
-    m = folium.Map(location=map_location, zoom_start=8)
-    marker_cluster = MarkerCluster().add_to(m)
+        m = folium.Map(location=map_location, zoom_start=8)
+        marker_cluster = MarkerCluster().add_to(m)
 
     # Add coral locations
-    for _, row in df.iterrows():
-        folium.CircleMarker(
-            location=[row[lat_col], row[lon_col]], 
-            radius=8, 
-            color='red', 
-            fill=True, 
-            fill_color='red'
-        ).add_to(marker_cluster)
+        for _, row in df.iterrows():
+            folium.CircleMarker(
+                location=[row[lat_col], row[lon_col]],
+                radius=5,
+                color='red',
+                fill=True,
+                fill_color='red'
+            ).add_to(marker_cluster)
 
-    # Add sailor markers
-    if st.session_state.get('sailor_location'):
-        folium.Marker(st.session_state.sailor_location, popup="Sailor Location", icon=folium.Icon(color='green')).add_to(m)
-    for lat, lon in st.session_state.sailor_markers:
-        folium.Marker([lat, lon], popup="Sailor Location").add_to(m)
+    # Add sailor markers without clustering
+        if st.session_state.get('sailor_location'):
+            folium.Marker(st.session_state.sailor_location, popup="Sailor Location", icon=folium.Icon(color='green')).add_to(m)
+        for lat, lon in st.session_state.sailor_markers:
+            folium.Marker([lat, lon], popup="Sailor Location").add_to(m)
+            st_folium(m, width=700, height=500)
 
-    # Add diver markers
-    if st.session_state.get('diver_location'):
-        folium.Marker(st.session_state.diver_location, popup="Diver Location", icon=folium.Icon(color='blue')).add_to(m)
-
-    # Add "You are here" markers for sailor and diver
-    if 'sailor_location' in st.session_state:
-        folium.Marker(st.session_state.sailor_location, popup="You are here", icon=folium.Icon(color='red')).add_to(m)
-    if 'diver_location' in st.session_state:
-        folium.Marker(st.session_state.diver_location, popup="You are here", icon=folium.Icon(color='red')).add_to(m)
-
-    # Display the map
-    st_folium(m, width=700, height=500)
+    # Add diver markers without clustering
+        if st.session_state.get('diver_location'):
+            folium.Marker(st.session_state.diver_location, popup="Diver Location", icon=folium.Icon(color='blue')).add_to(m)
+            st_folium(m, width=700, height=500)
