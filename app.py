@@ -84,6 +84,14 @@ def generate_sailor_markers():
         lon = random.uniform(-180, 180)
         markers.append([lat, lon])
     return markers
+ # Function to generate random diver markers
+def generate_diver_markers():
+    markers = []
+    for _ in range(100):
+        lat = random.uniform(-90, 90)
+        lon = random.uniform(-180, 180)
+        markers.append([lat, lon])
+    return markers   
 
 # Simulate WiFi signal detection (Replace this with actual WebSocket/API call)
 if 'page' not in st.session_state:
