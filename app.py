@@ -92,7 +92,7 @@ if 'last_marker_reset' not in st.session_state or current_time.hour != st.sessio
 
 # Home Page
 if st.session_state.page == 'home':
-    st.title("Welcome to SafeSea")
+    st.title("Welcome to SafeSea - Real-time Monitoring & Alert System")
     st.header("Dive deeper. Explore farther. Safe Sea has got your back.")
     col1, col2 = st.columns(2)
     
