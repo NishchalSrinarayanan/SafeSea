@@ -192,4 +192,6 @@ elif st.session_state.page == 'map':
     # Add diver markers without clustering
         if st.session_state.get('diver_location'):
             folium.Marker(st.session_state.diver_location, popup="Diver Location", icon=folium.Icon(color='blue')).add_to(m)
+             for lat, lon in st.session_state.diver_markers:
+            folium.Marker([lat, lon], popup="Diver Location").add_to(m)
             st_folium(m, width=700, height=500)
