@@ -15,11 +15,15 @@ page_bg_img = '''
 body {
     background-image: url("Background.png");
     background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 }
 </style>
 '''
 
-st.markdown(page_bg_img, unsafe_allow_html=True)
+st.markdown(page_bg_img, unsafe_allow_html=True
+
 
 # Function to load CSV from a local zip file
 @st.cache_data
