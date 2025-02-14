@@ -22,7 +22,7 @@ body {
 </style>
 '''
 
-st.markdown(page_bg_img, unsafe_allow_html=True
+st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
 # Function to load CSV from a local zip file
