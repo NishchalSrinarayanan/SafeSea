@@ -8,6 +8,7 @@ import os
 import random
 import requests
 from datetime import datetime
+import base64
 # Function to set the background image
 def set_background(png_file):
     with open(png_file, "rb") as image_file:
