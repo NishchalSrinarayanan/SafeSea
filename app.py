@@ -10,19 +10,29 @@ import requests
 from datetime import datetime
 
 # Add custom CSS for background image
-page_bg_img = '''
-<style>
-body {
-    background-image: url("Background.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-}
-</style>
-'''
+def set_background(png_file):
+    bin_str = get_base64_of_bin_file(png_file)
+    page_bg_img = f'''
+    <style>
+    body {{
+        background-image: url("data:image/png;base64,{bin_str}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+    }}
+    </style>
+    '''
+    st.markdown(page_bg_img, unsafe_allow_html=True)
 
-st.markdown(page_bg_img, unsafe_allow_html=True)
+@st.cache_data
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+# Set background image
+set_background('Background.png')
 
 
 # Function to load CSV from a local zip file
